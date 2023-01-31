@@ -26,7 +26,7 @@ public class MainPageScooter {
     private final By ORDER_BUTTON_MIDDLE = By.cssSelector(".Button_Button__ra12g.Button_Middle__1CSJM");
 
     // вопросы о важном
-    private final By QUSTIONS = By.className("accordion__button");
+    private final By QUESTIONS = By.className("accordion__button");
     //ответы на вопросы
     private final By ANSWERS = By.xpath("//div[@class ='accordion__panel']/p");
 
@@ -40,27 +40,29 @@ public class MainPageScooter {
         WebElement element = driver.findElement(HOME_FOUR_PART);
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
     }
+    public void clickOrderButton(String button){
+        if (button.equals("UP")){
+            driver.findElement(ORDER_BUTTON_UP).click();
+        }else if (button.equals("MIDDLE")){
+            WebElement element = driver.findElement(ORDER_BUTTON_MIDDLE);
+            ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
+            element.click();
+        }
 
-    public void clickUpOrderButton(){
-        driver.findElement(ORDER_BUTTON_UP).click();
     }
-    public void clickMiddleOrderButton(){
-        WebElement element = driver.findElement(ORDER_BUTTON_MIDDLE);
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", element);
-        element.click();
-    }
+
     public void clickQuestion(int id){
-        List<WebElement> questions = driver.findElements(QUSTIONS);
+        List<WebElement> questions = driver.findElements(QUESTIONS);
         questions.get(id).click();
     }
-    public boolean checkAnswer(int id){
+    public String getAnswer(int id){
         List<WebElement> answers = driver.findElements(ANSWERS);
 
         new WebDriverWait(driver, Duration.ofSeconds(3))
                 .until(ExpectedConditions.visibilityOf(answers.get(id)));
 
         //answer contains text
-        return !answers.get(id).getText().isEmpty();
+        return answers.get(id).getText();
     }
 }
 
